@@ -7,12 +7,12 @@ template <class T, class U = decltype(T{}.get())> struct R {
 
 #define CONST(expr)                                                            \
     __builtin_choose_expr(IS_CONSTEXPR(expr), ({                               \
-        static constexpr auto lfgcdvfitrecujcuuvflrru =                        \
+        static constexpr auto t =                                              \
             __builtin_choose_expr(IS_CONSTEXPR(expr), (expr), 0);              \
-        struct jjnldiveucilgnrtvbnhcvcjkghhldr {                               \
-            constexpr auto get() { return lfgcdvfitrecujcuuvflrru; }           \
+        struct T {                                                             \
+            constexpr auto get() { return t; }                                 \
         };                                                                     \
-        R<jjnldiveucilgnrtvbnhcvcjkghhldr>{};                                  \
+        R<T>{};                                                                \
                                               }),                              \
                           (expr))
 
