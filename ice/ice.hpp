@@ -1,5 +1,10 @@
 #pragma once
-#include <ice/is_constexpr.hpp>
+#define IS_CONSTEXPR(expr)                                                     \
+    (__builtin_constant_p(expr) || __builtin_constant_p(({                     \
+        auto kfjhddtgdcvteclundrrblvcjcglvkbg = (expr);                        \
+        static_cast<void>(kfjhddtgdcvteclundrrblvcjcglvkbg);                   \
+        0;                                                                     \
+                                   })))
 
 template <class T> struct TagConst {};
 template <class T> struct TagNonconst {};

@@ -1,14 +1,8 @@
 #!/usr/bin/python3
 import os
 
-
-def options(opt):
-    opt.load('compiler_cxx waf_unit_test')
-
-
-def configure(cfg):
-    cfg.load('compiler_cxx waf_unit_test')
-
+options = lambda cfg: cfg.load('compiler_cxx waf_unit_test')
+configure = options
 
 def build(bld):
     bld.add_group()

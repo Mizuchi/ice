@@ -1,4 +1,4 @@
-#include <ice/is_constexpr.hpp>
+#include <ice/ice.hpp>
 
 struct A {};
 
