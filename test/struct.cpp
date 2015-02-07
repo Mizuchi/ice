@@ -3,12 +3,12 @@
 
 struct A {
     constexpr A(int i) : i(i) {}
-    constexpr int get() { return i; }
+    constexpr int get() const { return i; }
     int i;
 };
 
 template <class T> constexpr int g(Const<T> t) {
-    static_assert(A(t).get() == 1);
+    static_assert(t.value.get() == 1);
     return 1;
 }
 
