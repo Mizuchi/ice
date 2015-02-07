@@ -11,6 +11,7 @@ int main() {
     constexpr int j = 0;
     static_assert(IS_CONSTEXPR(j) == true);
     static_assert(IS_CONSTEXPR(j + 42) == true);
+    static_assert(IS_CONSTEXPR(i + j) == false);
 
     A a;
     static_assert(IS_CONSTEXPR(a) == false);
