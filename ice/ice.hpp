@@ -26,7 +26,6 @@ template <class T> using Any = Ice<T>;
             __builtin_choose_expr(IS_CONSTEXPR(expr), (expr), 0);              \
         struct __6uH5e {                                                       \
             static constexpr auto get() { return _36uH5e; }                    \
-            constexpr operator auto() { return get(); }                        \
         };                                                                     \
         Const<__6uH5e>{};                                                      \
                                               }),                              \
