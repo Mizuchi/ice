@@ -1,3 +1,4 @@
+#pragma once
 #include <ice/is_constexpr.hpp>
 
 template <class T> struct TagConst {};
