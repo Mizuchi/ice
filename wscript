@@ -20,8 +20,7 @@ def build(bld):
                     source=os.path.join(root, filename),
                     target=filename + '.test',
                     includes='.',
-                    cxxflags=['-std=c++1z', '-Wall', '-Werror',
-                              '-ftemplate-backtrace-limit=0'],
+                    cxxflags=['-std=c++1z', '-Wall', '-Werror'],
                 )
     from waflib.Tools import waf_unit_test
     bld.add_post_fun(waf_unit_test.summary)
