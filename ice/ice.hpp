@@ -12,15 +12,14 @@ template <typename T>
 constexpr typename std::remove_reference<T>::type makeprval(T &&t) {
     return t;
 }
-#define IS_CONSTEXPR(e) noexcept(detail::makeprval(e))
+#define IS_CONSTEXPR(e) noexcept(::folly::detail::makeprval(e))
 #else
 // TODO: remove this when the following bug is fixed
 // http://llvm.org/bugs/show_bug.cgi?id=15481
 // BTW, the approach uses another clang bug, which is fixed in 3.7
 template <typename T> constexpr int zero(T) { return 0; }
-#define IS_CONSTEXPR(expr) __builtin_constant_p(detail::zero(expr))
+#define IS_CONSTEXPR(expr) __builtin_constant_p(::folly::detail::zero(expr))
 #endif
-
 
 template <class T1, class T2>
 constexpr const T1 choose_expr(std::true_type, T1 &&expr1, T2 &&) {
@@ -48,10 +47,10 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
 #define FROZEN2(expr)                                                          \
     [=]() {                                                                    \
+        using ::folly::detail::choose_expr;                                    \
         using VAR(t) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
         auto make_constexpr = [=]() {                                          \
-            static constexpr auto VAR(expr1) =                                 \
-                detail::choose_expr(VAR(t){}, expr, 0);                        \
+            static constexpr auto VAR(expr1) = choose_expr(VAR(t){}, expr, 0); \
             struct VAR(T) {                                                    \
                 constexpr operator decltype(VAR(expr1))() const {              \
                     return VAR(expr1);                                         \
@@ -70,9 +69,10 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
             };                                                                 \
             return Nonconst<VAR(T)>{};                                         \
         };                                                                     \
-        return detail::choose_expr(VAR(t){}, make_constexpr(), make_expr());   \
+        return choose_expr(VAR(t){}, make_constexpr(), make_expr());           \
     }()
 
 #define FROZEN(expr)                                                           \
-    detail::choose_expr(detail::IsFrozen<decltype(expr)>{}, expr, FROZEN2(expr))
+    (::folly::detail::choose_expr(::folly::detail::IsFrozen<decltype(expr)>{}, \
+                                  expr, FROZEN2(expr)))
 }
