@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <stdexcept>
+using namespace folly;
 
 void smart_assert(bool t) { t ? 0 : throw 0; /* assert(t); */ }
 template <class T> void smart_assert(Const<T> t) { static_assert(t, "error"); }

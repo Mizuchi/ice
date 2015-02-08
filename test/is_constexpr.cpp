@@ -1,4 +1,5 @@
 #include <ice/ice.hpp>
+using namespace folly;
 
 struct A {};
 

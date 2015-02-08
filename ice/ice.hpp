@@ -1,4 +1,6 @@
+#pragma once
 #include <type_traits>
+namespace folly {
 namespace detail {
 
 #define VAR(a) _SBL_VAR(a, __LINE__)
@@ -73,3 +75,4 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 
 #define FROZEN(expr)                                                           \
     detail::choose_expr(detail::IsFrozen<decltype(expr)>{}, expr, FROZEN2(expr))
+}

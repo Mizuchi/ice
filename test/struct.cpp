@@ -1,5 +1,6 @@
 #include <ice/ice.hpp>
 #include <cassert>
+using namespace folly;
 
 struct A {
     constexpr A(int i) : i(i) {}
