@@ -45,7 +45,7 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 
 // TODO: use [&] instead of [=] after the following bug is fixed
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
-#define FROZEN2(expr)                                                          \
+#define FROZEN_IMPL(expr)                                                      \
     [=]() {                                                                    \
         using namespace folly;                                                 \
         using detail::choose_expr;                                             \
@@ -75,5 +75,5 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 
 #define FROZEN(expr)                                                           \
     (::folly::detail::choose_expr(::folly::detail::IsFrozen<decltype(expr)>{}, \
-                                  expr, FROZEN2(expr)))
+                                  expr, FROZEN_IMPL(expr)))
 }
