@@ -30,7 +30,8 @@ template <class T1, class T2>
 constexpr const T2 choose_expr(std::false_type, T1 &&, T2 &&expr2) {
     return expr2;
 }
-}
+} // namespace detail
+
 template <class T> using Const = detail::Ice<detail::ConstTag<T>>;
 template <class T> using Nonconst = detail::Ice<detail::NonconstTag<T>>;
 template <class T> using Any = detail::Ice<T>;
