@@ -40,7 +40,7 @@ template <class T> using Any = detail::Ice<T>;
         using VAR(t) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
         auto make_constexpr = [&]() {                                          \
             static constexpr auto VAR(expr1) =                                 \
-                detail::choose_expr(VAR(t){}, (expr), 0);                              \
+                detail::choose_expr(VAR(t){}, (expr), 0);                      \
             struct VAR(T) {                                                    \
                 constexpr operator decltype(VAR(expr1))() const {              \
                     return VAR(expr1);                                         \
@@ -59,5 +59,5 @@ template <class T> using Any = detail::Ice<T>;
             };                                                                 \
             return Nonconst<VAR(T)>{};                                         \
         };                                                                     \
-        return detail::choose_expr(VAR(t){}, make_constexpr(), make_expr());           \
+        return detail::choose_expr(VAR(t){}, make_constexpr(), make_expr());   \
     }()
