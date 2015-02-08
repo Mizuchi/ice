@@ -7,9 +7,9 @@ constexpr int fibImpl(int t) {
     return t <= 1 ? t : fibImpl(t - 1) + fibImpl(t - 2);
 }
 
-template <class T> auto fib(Const<T>) {
-    static_assert(Const<T>{} >= 0, "");
-    return FROZEN(fibImpl(Const<T>{}));
+template <class T> auto fib(Const<T> t) {
+    static_assert(t >= 0, "");
+    return FROZEN(fibImpl(t));
 }
 
 int fib(int t) {
