@@ -2,12 +2,13 @@
 #include <cassert>
 #include <cmath>
 #include <stdexcept>
-using namespace folly;
 
 void smart_assert(bool t) { t ? 0 : throw 0; /* assert(t); */ }
-template <class T> void smart_assert(Const<T> t) { static_assert(t, "error"); }
+template <class T> void smart_assert(folly::Const<T> t) {
+    static_assert(t, "error");
+}
 
-template <class T> auto checked_sqrt(Any<T> f) {
+template <class T> auto checked_sqrt(folly::Any<T> f) {
     smart_assert(f >= 0);
     return sqrt(f);
 }

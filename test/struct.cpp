@@ -1,6 +1,5 @@
 #include <ice/ice.hpp>
 #include <cassert>
-using namespace folly;
 
 struct A {
     constexpr A(int i) : i(i) {}
@@ -8,7 +7,7 @@ struct A {
     int i;
 };
 
-template <class T> auto g(Const<T> t) {
+template <class T> auto g(folly::Const<T> t) {
     static_assert(t.get().get() == 1, "");
     return FROZEN(t.get().get() + 1);
 }

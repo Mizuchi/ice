@@ -2,13 +2,12 @@
 #include <vector>
 #include <cassert>
 #include <iostream>
-using namespace folly;
 
 constexpr int fibImpl(int t) {
     return t <= 1 ? t : fibImpl(t - 1) + fibImpl(t - 2);
 }
 
-template <class T> auto fib(Const<T> t) {
+template <class T> auto fib(folly::Const<T> t) {
     static_assert(t >= 0, "");
     return FROZEN(fibImpl(t));
 }

@@ -47,7 +47,8 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
 #define FROZEN2(expr)                                                          \
     [=]() {                                                                    \
-        using ::folly::detail::choose_expr;                                    \
+        using namespace folly;                                                 \
+        using detail::choose_expr;                                             \
         using VAR(t) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
         auto make_constexpr = [=]() {                                          \
             static constexpr auto VAR(expr1) = choose_expr(VAR(t){}, expr, 0); \
