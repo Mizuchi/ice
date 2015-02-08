@@ -9,15 +9,15 @@ struct A {
 
 template <class T> auto g(Const<T> t) {
     static_assert(t.get().get() == 1, "");
-    return FROZEN(1);
+    return FROZEN(t.get().get() + 1);
 }
 
-int g(A) { return 2; }
+int g(A) { return 5; }
 
 int main() {
     constexpr A a1{1};
-    A a2{2};
+    A a2{10};
     auto x = g(FROZEN(a1));
-    static_assert(x == 1, "");
-    assert(g(FROZEN(a2)) == 2);
+    static_assert(x == 2, "");
+    assert(g(FROZEN(a2)) == 5);
 }
