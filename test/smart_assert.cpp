@@ -8,7 +8,7 @@ template <class T> void smart_assert(folly::Const<T> t) {
     static_assert(t, "error");
 }
 
-template <class T> auto checked_sqrt(folly::Any<T> f) {
+template <class T> double checked_sqrt(folly::Any<T> f) {
     smart_assert(f >= 0);
     return sqrt(f);
 }
