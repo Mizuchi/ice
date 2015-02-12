@@ -7,7 +7,7 @@ struct A {
     int i;
 };
 
-template <class T> auto g(folly::Const<T> t) {
+template <class T> auto g(folly::frozen::Const<T> t) {
     static_assert(t.get().get() == 1, "");
     return FROZEN(t.get().get() + 1);
 }

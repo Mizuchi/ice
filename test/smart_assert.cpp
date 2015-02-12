@@ -4,11 +4,11 @@
 #include <stdexcept>
 
 void smart_assert(bool t) { t ? 0 : throw 0; /* assert(t); */ }
-template <class T> void smart_assert(folly::Const<T> t) {
+template <class T> void smart_assert(folly::frozen::Const<T> t) {
     static_assert(t, "error");
 }
 
-template <class T> double checked_sqrt(folly::Any<T> f) {
+template <class T> double checked_sqrt(folly::frozen::Any<T> f) {
     smart_assert(f >= 0);
     return sqrt(f);
 }
