@@ -4,9 +4,9 @@ namespace folly {
 namespace frozen {
 namespace detail {
 
-#define VAR(a) _SBL_VAR(a, __LINE__)
-#define _SBL_VAR(a, b) __SBL_VAR(a, b)
-#define __SBL_VAR(s, B) _sBl##s##B##l
+#define VAR(a) _FROZEN_VAR(a, __LINE__)
+#define _FROZEN_VAR(a, b) __FROZEN_VAR(a, b)
+#define __FROZEN_VAR(a, b) guujijgtldsjlfaghnbjzxcvjkbnrdet##a##b
 
 #ifndef __clang__
 template <typename T>
@@ -19,8 +19,7 @@ constexpr typename std::remove_reference<T>::type makeprval(T &&t) {
 // http://llvm.org/bugs/show_bug.cgi?id=15481
 // BTW, the approach uses another clang bug, which is fixed in 3.7
 template <typename T> constexpr int zero(T) { return 0; }
-#define IS_CONSTEXPR(expr)                                                     \
-    __builtin_constant_p(::folly::frozen::detail::zero(expr))
+#define IS_CONSTEXPR(e) __builtin_constant_p(::folly::frozen::detail::zero(e))
 #endif
 
 template <class T1, class T2>
