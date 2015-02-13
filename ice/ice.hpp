@@ -15,7 +15,7 @@ constexpr typename std::remove_reference<T>::type makeprval(T &&t) {
 }
 #define IS_CONSTEXPR(e) noexcept(::folly::frozen::detail::makeprval(e))
 #else
-// TODO: remove this when the following bug is fixed
+// XXX: remove this when the following bug is fixed
 // http://llvm.org/bugs/show_bug.cgi?id=15481
 // BTW, the approach uses another clang bug, which is fixed in 3.7
 template <typename T> constexpr int zero(T) { return 0; }
@@ -44,7 +44,7 @@ template <class T> struct IsFrozen : std::false_type {};
 template <class T> struct IsFrozen<Any<T>> : std::true_type {};
 }
 
-// TODO: use [&] instead of [=] after the following bug is fixed
+// XXX: use [&] instead of [=] after the following bug is fixed
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
 #define FROZEN_IMPL(expr)                                                      \
     [=]() {                                                                    \
