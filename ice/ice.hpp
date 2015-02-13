@@ -50,9 +50,9 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
     [=]() {                                                                    \
         using namespace folly::frozen;                                         \
         using detail::choose_expr;                                             \
-        using VAR(t) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
+        using VAR(b) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
         auto make_constexpr = [=]() {                                          \
-            static constexpr auto VAR(e) = choose_expr(VAR(t){}, (expr), 0);   \
+            static constexpr auto VAR(e) = choose_expr(VAR(b){}, (expr), 0);   \
             struct VAR(T) {                                                    \
                 constexpr operator decltype(VAR(e))() const { return VAR(e); } \
                 static constexpr decltype(VAR(e)) get() { return VAR(e); }     \
@@ -67,7 +67,7 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
             };                                                                 \
             return Nonconst<VAR(T)>{};                                         \
         };                                                                     \
-        return choose_expr(VAR(t){}, make_constexpr(), make_expr());           \
+        return choose_expr(VAR(b){}, make_constexpr(), make_expr());           \
     }()
 
 #define FROZEN(expr)                                                           \
