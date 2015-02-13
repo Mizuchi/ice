@@ -71,8 +71,8 @@ template <class T> struct IsFrozen<Any<T>> : std::true_type {};
     }()
 
 #define FROZEN(expr)                                                           \
-    (::folly::frozen::detail::choose_expr(                                     \
+    ::folly::frozen::detail::choose_expr(                                      \
         ::folly::frozen::detail::IsFrozen<decltype(expr)>{}, (expr),           \
-        FROZEN_IMPL(expr)))
+        FROZEN_IMPL(expr))
 }
 }
