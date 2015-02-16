@@ -23,6 +23,6 @@ int main() {
     }
     s = 5;
     checked_sqrt(ICE(s));
-    // checked_sqrt(ICE(-1)); // compile-time error
-    // checked_sqrt(5); // compile-time error
+    // checked_sqrt(ICE(-1)); // compile-time error due to static_assert
+    // checked_sqrt(5); // compile-time error, forgot ICE(...) macro
 }
