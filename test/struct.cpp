@@ -7,9 +7,9 @@ struct A {
     int i;
 };
 
-template <class T> auto g(folly::frozen::Const<T> t) {
+template <class T> auto g(folly::ice::Const<T> t) {
     static_assert(t.get().get() == 1, "");
-    return FROZEN(t.get().get() + 1);
+    return ICE(t.get().get() + 1);
 }
 
 int g(A) { return 5; }
@@ -17,7 +17,7 @@ int g(A) { return 5; }
 int main() {
     constexpr A a1{1};
     A a2{10};
-    auto x = g(FROZEN(a1));
+    auto x = g(ICE(a1));
     static_assert(x == 2, "");
-    assert(g(FROZEN(a2)) == 5);
+    assert(g(ICE(a2)) == 5);
 }

@@ -1,25 +1,25 @@
 #pragma once
 #include <type_traits>
 namespace folly {
-namespace frozen {
+namespace ice {
 namespace detail {
 
-#define VAR(a) _FROZEN_VAR(a, __LINE__)
-#define _FROZEN_VAR(a, b) __FROZEN_VAR(a, b)
-#define __FROZEN_VAR(a, b) guujijgtldsjlfaghnbjzxcvjkbnrdet##a##b
+#define ICE_VAR(a) _ICE_VAR(a, __LINE__)
+#define _ICE_VAR(a, b) __ICE_VAR(a, b)
+#define __ICE_VAR(a, b) guujijgtldsjlfaghnbjzxcvjkbnrdet##a##b
 
 #ifndef __clang__
 template <typename T>
 constexpr typename std::remove_reference<T>::type makeprval(T &&t) {
     return t;
 }
-#define IS_CONSTEXPR(e) noexcept(::folly::frozen::detail::makeprval(e))
+#define ICE_IS_CONSTEXPR(e) noexcept(::folly::ice::detail::makeprval(e))
 #else
 // XXX: remove this when the following bug is fixed
 // http://llvm.org/bugs/show_bug.cgi?id=15481
 // BTW, the approach uses another clang bug, which is fixed in 3.7
 template <typename T> constexpr int zero(T) { return 0; }
-#define IS_CONSTEXPR(e) __builtin_constant_p(::folly::frozen::detail::zero(e))
+#define ICE_IS_CONSTEXPR(e) __builtin_constant_p(::folly::ice::detail::zero(e))
 #endif
 
 template <class T1, class T2>
@@ -40,39 +40,44 @@ template <class T> using Const = Any<detail::Const<T>>;
 template <class T> using Nonconst = Any<detail::Nonconst<T>>;
 
 namespace detail {
-template <class T> struct IsFrozen : std::false_type {};
-template <class T> struct IsFrozen<Any<T>> : std::true_type {};
+template <class T> struct IsIce : std::false_type {};
+template <class T> struct IsIce<Any<T>> : std::true_type {};
 }
 
 // XXX: use [&] instead of [=] after the following bug is fixed
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
-#define FROZEN_IMPL(expr)                                                      \
+#define ICE_IMPL(expr)                                                         \
     [=]() {                                                                    \
-        using namespace folly::frozen;                                         \
+        using namespace folly::ice;                                            \
         using detail::choose_expr;                                             \
-        using VAR(b) = std::integral_constant<bool, IS_CONSTEXPR(expr)>;       \
+        using ICE_VAR(b) =                                                     \
+            std::integral_constant<bool, ICE_IS_CONSTEXPR(expr)>;              \
         auto make_constexpr = [=]() {                                          \
-            static constexpr auto VAR(e) = choose_expr(VAR(b){}, (expr), 0);   \
-            struct VAR(T) {                                                    \
-                constexpr operator decltype(VAR(e))() const { return VAR(e); } \
-                static constexpr decltype(VAR(e)) get() { return VAR(e); }     \
+            static constexpr auto ICE_VAR(e) =                                 \
+                choose_expr(ICE_VAR(b){}, (expr), 0);                          \
+            struct ICE_VAR(T) {                                                \
+                constexpr operator decltype(ICE_VAR(e))() const {              \
+                    return ICE_VAR(e);                                         \
+                }                                                              \
+                static constexpr decltype(ICE_VAR(e)) get() {                  \
+                    return ICE_VAR(e);                                         \
+                }                                                              \
             };                                                                 \
-            return Const<VAR(T)>{};                                            \
+            return Const<ICE_VAR(T)>{};                                        \
         };                                                                     \
         auto make_expr = [=]() {                                               \
-            static const auto VAR(e) = (expr);                                 \
-            struct VAR(T) {                                                    \
-                operator decltype(VAR(e))() const { return VAR(e); }           \
-                static decltype(VAR(e)) get() { return VAR(e); }               \
+            static const auto ICE_VAR(e) = (expr);                             \
+            struct ICE_VAR(T) {                                                \
+                operator decltype(ICE_VAR(e))() const { return ICE_VAR(e); }   \
+                static decltype(ICE_VAR(e)) get() { return ICE_VAR(e); }       \
             };                                                                 \
-            return Nonconst<VAR(T)>{};                                         \
+            return Nonconst<ICE_VAR(T)>{};                                     \
         };                                                                     \
-        return choose_expr(VAR(b){}, make_constexpr(), make_expr());           \
+        return choose_expr(ICE_VAR(b){}, make_constexpr(), make_expr());       \
     }()
 
-#define FROZEN(expr)                                                           \
-    ::folly::frozen::detail::choose_expr(                                      \
-        ::folly::frozen::detail::IsFrozen<decltype(expr)>{}, (expr),           \
-        FROZEN_IMPL(expr))
+#define ICE(expr)                                                              \
+    ::folly::ice::detail::choose_expr(                                         \
+        ::folly::ice::detail::IsIce<decltype(expr)>{}, (expr), ICE_IMPL(expr))
 }
 }
