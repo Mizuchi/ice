@@ -56,6 +56,9 @@ template <class T> struct IsIce<Any<T>> : std::true_type {};
             static constexpr auto ICE_VAR(e) =                                 \
                 choose_expr(ICE_VAR(b){}, (expr), 0);                          \
             struct ICE_VAR(T) {                                                \
+                constexpr ICE_VAR(T)() {}                                      \
+                constexpr ICE_VAR(T)(ICE_VAR(T) && ) {}                        \
+                constexpr ICE_VAR(T)(const ICE_VAR(T) &) {}                    \
                 constexpr operator decltype(ICE_VAR(e))() const {              \
                     return ICE_VAR(e);                                         \
                 }                                                              \
