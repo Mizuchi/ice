@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <cstdlib>
 
-const int maxDimension = 20;
+const int maxDimension = 100;
 
 struct Model {
     int dimension;
