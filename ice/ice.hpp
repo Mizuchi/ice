@@ -6,7 +6,7 @@ namespace detail {
 
 #define ICE_VAR(a) _ICE_VAR(a, __LINE__)
 #define _ICE_VAR(a, b) __ICE_VAR(a, b)
-#define __ICE_VAR(a, b) guujijgtldsjlfaghnbjzxcvjkbnrdet##a##b
+#define __ICE_VAR(a, b) __ice_var_guujijgtldsjlfaghnbjzxcvjkbnrdet##a##b
 
 #ifndef __clang__
 template <typename T>
@@ -23,8 +23,8 @@ template <typename T> constexpr int zero(T) { return 0; }
 #endif
 
 template <class T1, class T2>
-constexpr const T1 choose_expr(std::true_type, T1 &&e, T2 &&) {
-    return e;
+constexpr const T1 choose_expr(std::true_type, T1 &&expr1, T2 &&) {
+    return expr1;
 }
 template <class T1, class T2>
 constexpr const T2 choose_expr(std::false_type, T1 &&, T2 &&expr2) {
@@ -40,8 +40,9 @@ template <class T> using Const = Any<detail::Const<T>>;
 template <class T> using Nonconst = Any<detail::Nonconst<T>>;
 
 namespace detail {
-template <class T> struct IsIce : std::false_type {};
-template <class T> struct IsIce<Any<T>> : std::true_type {};
+template <class T> struct IsIceImpl : std::false_type {};
+template <class T> struct IsIceImpl<Any<T>> : std::true_type {};
+template <class T> struct IsIce : IsIceImpl<typename std::decay<T>::type> {};
 }
 
 // XXX: use [&] instead of [=] after the following bug is fixed
