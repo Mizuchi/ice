@@ -110,5 +110,21 @@ In C++14 we could make the API look a little bit better
       static_assert(ret == 8, "");
     }
 
-example 3: performance improving
-=====================================
+example 3: non-type template parameter is history
+==================================================
+
+ICE is a superset of non-type template parameter. (e.g. non-type template parameter don't accept floating point, ICE don't have this restriction).
+
+    template <class T> auto make_bitset(folly::ice::Const<T> t) -> std::bitset<T::get()> {
+        return {};
+    }
+    boost::dynamic_bitset<> make_bitset(size_t n) { return boost::dynamic_bitset<>{n}; }
+
+    int main() {
+      auto a = make_bitset(ICE(100));
+      static_assert(std::is_same<decltype(a), std::bitset<100>>::value, "");
+
+      size_t n = 100;
+      auto b = make_bitset(ICE(n));
+      static_assert(std::is_same<decltype(b), boost::dynamic_bitset<>>::value, "");
+    }
