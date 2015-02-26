@@ -8,7 +8,7 @@ struct A {
     int i;
 };
 
-template <class T> constexpr int g(folly::ice::Const<T> t) {
+template <class T> constexpr int g(ice::Const<T> t) {
     static_assert(std::is_same<decltype(t.get()), const A>::value, "");
     static_assert(t.get().value() == 1, "");
     return t.get().value() + 1;

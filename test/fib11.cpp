@@ -7,7 +7,7 @@ constexpr int fibImpl(int t) {
     return t <= 1 ? t : fibImpl(t - 1) + fibImpl(t - 2);
 }
 
-template <class T> constexpr int fib(folly::ice::Const<T> t) {
+template <class T> constexpr int fib(ice::Const<T> t) {
     static_assert(t >= 0, "");
     return fibImpl(t);
 }

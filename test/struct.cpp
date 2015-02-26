@@ -7,7 +7,7 @@ struct A {
     int i;
 };
 
-template <class T> auto g(folly::ice::Const<T> t) {
+template <class T> auto g(ice::Const<T> t) {
     static_assert(std::is_same<decltype(t.get()), const A>::value, "");
     static_assert(t.get().value() == 1, "");
     return ICE(t.get().value() + 1);

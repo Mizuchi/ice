@@ -1,7 +1,7 @@
 #include <ice/ice.hpp>
 #include <boost/dynamic_bitset.hpp>
 #include <bitset>
-template <class T> auto make_bitset(folly::ice::Const<T> t) -> std::bitset<T::get()> {
+template <class T> auto make_bitset(ice::Const<T> t) -> std::bitset<T::get()> {
     return {};
 }
 boost::dynamic_bitset<> make_bitset(size_t n) { return boost::dynamic_bitset<>{n}; }
