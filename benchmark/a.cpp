@@ -1,7 +1,7 @@
 #include "c.h"
 
 template <class T>
-bool isFirstClass(folly::ice::Any<T> t, std::vector<double> x) {
+bool isFirstClass(ice::Any<T> t, std::vector<double> x) {
     double s = 0;
     for (int i = 0; i < t.get().dimension; i++) {
         s += t.get().w[i] * x[i];
