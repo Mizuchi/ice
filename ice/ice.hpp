@@ -28,15 +28,10 @@ constexpr const T2 choose_expr(std::false_type, T1 &&, T2 &&expr2) {
 }
 
 template <class T> struct Const : T {};
-
 template <class T> struct Nonconst : T {};
-
 template <class T> struct Any : T {};
-
 template <class T> struct IsIceImpl : std::false_type {};
-
 template <class T> struct IsIceImpl<Any<T>> : std::true_type {};
-
 template <class T> struct IsIce : IsIceImpl<typename std::decay<T>::type> {};
 } // namespace detail
 
@@ -55,7 +50,7 @@ template <class T> using Nonconst = Any<detail::Nonconst<T>>;
 // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64977
 #define ICE_IMPL(expr)                                                         \
     [=]() {                                                                    \
-        using namespace ice;                                            \
+        using namespace ice;                                                   \
         using detail::choose_expr;                                             \
         using ICE_VAR(b) =                                                     \
             std::integral_constant<bool, ICE_IS_CONSTEXPR(expr)>;              \
@@ -87,7 +82,7 @@ template <class T> using Nonconst = Any<detail::Nonconst<T>>;
     }()
 
 #define ICE(expr)                                                              \
-    ::ice::detail::choose_expr(                                         \
-        ::ice::detail::IsIce<decltype(expr)>{}, (expr), ICE_IMPL(expr))
+    ::ice::detail::choose_expr(::ice::detail::IsIce<decltype(expr)>{}, (expr), \
+                               ICE_IMPL(expr))
 
 } // namespace ice
