@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __ICE__GUARD__HEADER
+#define __ICE__GUARD__HEADER
 #include <type_traits>
 
 namespace ice {
@@ -86,3 +87,4 @@ template <class T> using Nonconst = Any<detail::Nonconst<T>>;
                                ICE_IMPL(expr))
 
 } // namespace ice
+#endif
