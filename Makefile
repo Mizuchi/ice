@@ -2,7 +2,7 @@
 
 CPP_FILES := $(wildcard test/*.cpp)
 EXE_FILES := $(addprefix build/,$(notdir $(CPP_FILES:.cpp=.exe)))
-CC_FLAGS += -MMD -std=c++14 -I.
+CC_FLAGS += -MMD -std=c++14 -I include
 
 all: $(EXE_FILES)
 clean:

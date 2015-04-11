@@ -1,4 +1,4 @@
-tutorial
+Tutorial
 #########
 
 In C++, constexpr is not part of type. ICE (inlaid constant expression) is a header-only C++11 library which makes the constexpr be a part of type. It may be useful for writing library code.
