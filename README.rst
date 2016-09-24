@@ -144,3 +144,7 @@ ICE is a superset of non-type template parameter. (e.g. non-type template parame
      static_assert(std::is_same<decltype(b), std::vector<int>>::value, "");
     }
 
+License
+=======
+
+Code is licensed under Reciprocal Public License 1.5 (RPL-1.5): https://opensource.org/licenses/RPL-1.5
