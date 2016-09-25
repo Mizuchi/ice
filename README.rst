@@ -1,8 +1,15 @@
 Tutorial
 #########
 
-In C++, constexpr is not part of type. ICE (inlaid constant expression) is a header-only C++11 library which makes the constexpr be a part of type. It may be useful for writing library code.
-Sometimes we want to have function overloading based on the arguments being constexpr. There are several use cases why this feature would be useful.
+In C++, constexpr is not part of type. ICE (inlaid constant expression) is a header-only C++11 library making the constexpr be a part of type. It could be useful for writing library code. Sometimes we want to have function overloading based on the arguments being constexpr. There are several use cases why this feature would be useful.
+
+        The fact that an argument is not a constant expression means that we can't use it as a non-type template parameter, 
+        as an array bound, inside a static_assert or anything else that requires a constant expression. 
+        In addition, this means that the return type of a function can't depend on the value of an argument.
+
+        -- Boost.Hana Documentation
+
+ICE allows us to use function argument as a non-type template parameter, as an array bound, inside a static_assert or anything else that requires a constant expression. In addition, this means that the return type of a function can depend on the value of an argument.
 
 example 1: error handling
 ===========================
@@ -125,7 +132,7 @@ In C++14 we could make the API look a little bit better
 example 3: simulate non-type template parameter
 ==================================================
 
-ICE is a superset of non-type template parameter. (e.g. non-type template parameter don't accept floating point, ICE don't have this restriction).
+ICE is a superset of non-type template parameter. (e.g. non-type template parameter doesn't accept floating point, ICE doesn't have this restriction). 
 
 .. code-block:: cpp
 
